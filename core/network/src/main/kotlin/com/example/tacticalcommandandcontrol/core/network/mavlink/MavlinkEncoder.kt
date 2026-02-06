@@ -10,7 +10,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MavlinkEncoder @Inject constructor() {
+class MavlinkEncoder @Inject constructor(
+    private val signer: MavlinkSigner,
+) {
 
     companion object {
         private const val GCS_SYSTEM_ID = 255
@@ -120,7 +122,19 @@ class MavlinkEncoder @Inject constructor() {
         val connection = MavlinkConnection.create(inputStream, outputStream)
 
         try {
-            connection.send2(GCS_SYSTEM_ID, GCS_COMPONENT_ID, commandLong)
+            val signingParams = signer.getSigningParams()
+            if (signingParams != null) {
+                connection.send2(
+                    GCS_SYSTEM_ID,
+                    GCS_COMPONENT_ID,
+                    commandLong,
+                    signingParams.linkId,
+                    signingParams.timestamp,
+                    signingParams.secretKey,
+                )
+            } else {
+                connection.send2(GCS_SYSTEM_ID, GCS_COMPONENT_ID, commandLong)
+            }
         } catch (e: Exception) {
             Timber.e(e, "MAVLink encode error for command: ${command.name}")
         }

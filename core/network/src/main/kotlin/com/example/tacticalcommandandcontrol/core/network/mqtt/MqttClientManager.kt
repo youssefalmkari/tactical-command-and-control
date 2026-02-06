@@ -38,11 +38,25 @@ class MqttClientManager @Inject constructor(
 
         _connectionState.value = MqttConnectionState.Connecting
 
-        val mqttClient = Mqtt5Client.builder()
+        val builder = Mqtt5Client.builder()
             .identifier(config.clientId)
             .serverHost(config.brokerHost)
             .serverPort(config.brokerPort)
             .automaticReconnectWithDefaultConfig()
+
+        if (config.useTls) {
+            val sslBuilder = builder.sslConfig()
+                .trustManagerFactory(config.tlsConfig.buildTrustManagerFactory())
+                .protocols(config.tlsConfig.protocols)
+
+            config.tlsConfig.buildKeyManagerFactory()?.let { kmf ->
+                sslBuilder.keyManagerFactory(kmf)
+            }
+
+            sslBuilder.applySslConfig()
+        }
+
+        val mqttClient = builder
             .addDisconnectedListener { context ->
                 Timber.w("MQTT disconnected: ${context.cause.message}")
                 if (reconnectAttempt < config.maxReconnectAttempts) {

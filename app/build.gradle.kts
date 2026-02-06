@@ -63,6 +63,9 @@ dependencies {
     // Compose Icons
     implementation("androidx.compose.material:material-icons-core")
 
+    // Biometric
+    implementation(libs.androidx.biometric)
+
     // Logging
     implementation(libs.timber)
 

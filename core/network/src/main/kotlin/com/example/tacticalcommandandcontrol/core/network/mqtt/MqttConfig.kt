@@ -7,6 +7,7 @@ data class MqttConfig(
     val username: String? = null,
     val password: String? = null,
     val useTls: Boolean = true,
+    val tlsConfig: MqttTlsConfig = MqttTlsConfig(),
     val keepAliveSeconds: Int = 30,
     val connectionTimeoutSeconds: Long = 10,
     val reconnectDelayMs: Long = 5000,
