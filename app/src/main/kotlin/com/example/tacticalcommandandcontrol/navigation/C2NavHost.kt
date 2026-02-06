@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.example.tacticalcommandandcontrol.feature.dronecontrol.navigation.droneControlScreen
+import com.example.tacticalcommandandcontrol.feature.dronecontrol.navigation.navigateToDroneControl
+import com.example.tacticalcommandandcontrol.feature.liveops.navigation.liveOpsScreen
+import com.example.tacticalcommandandcontrol.feature.missionplanning.navigation.missionPlanningScreen
 
 @Composable
 fun C2NavHost(
@@ -16,14 +19,10 @@ fun C2NavHost(
         startDestination = TopLevelDestination.LIVE_OPS.route,
         modifier = modifier,
     ) {
-        composable(TopLevelDestination.MISSION_PLANNING.route) {
-            MissionPlanningPlaceholder()
-        }
-        composable(TopLevelDestination.LIVE_OPS.route) {
-            LiveOpsPlaceholder()
-        }
-        composable(TopLevelDestination.DRONE_CONTROL.route) {
-            DroneControlPlaceholder()
-        }
+        missionPlanningScreen()
+        liveOpsScreen(
+            onDroneClick = { navController.navigateToDroneControl() },
+        )
+        droneControlScreen()
     }
 }
