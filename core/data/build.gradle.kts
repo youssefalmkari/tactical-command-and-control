@@ -19,6 +19,7 @@ dependencies {
     implementation(libs.hilt.work)
     ksp(libs.hilt.work.compiler)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.hivemq.mqtt.client)
     implementation(libs.timber)
 
     testImplementation(libs.junit)
