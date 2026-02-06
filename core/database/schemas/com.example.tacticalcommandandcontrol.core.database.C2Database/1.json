@@ -1,0 +1,426 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "c39da879daadb6f2c7678024ebbfae52",
+    "entities": [
+      {
+        "tableName": "drones",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `status` TEXT NOT NULL, `flightMode` TEXT NOT NULL, `latitude` REAL, `longitude` REAL, `altitudeMsl` REAL, `relativeAltitude` REAL, `heading` REAL, `groundSpeed` REAL, `rollDeg` REAL, `pitchDeg` REAL, `yawDeg` REAL, `batteryRemainingPercent` INTEGER, `batteryVoltageMillivolts` INTEGER, `batteryCurrentMilliamps` INTEGER, `batteryTemperatureCelsius` REAL, `isConnected` INTEGER NOT NULL, `lastSeenEpochMillis` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flightMode",
+            "columnName": "flightMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "altitudeMsl",
+            "columnName": "altitudeMsl",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "relativeAltitude",
+            "columnName": "relativeAltitude",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "heading",
+            "columnName": "heading",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "groundSpeed",
+            "columnName": "groundSpeed",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "rollDeg",
+            "columnName": "rollDeg",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "pitchDeg",
+            "columnName": "pitchDeg",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "yawDeg",
+            "columnName": "yawDeg",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "batteryRemainingPercent",
+            "columnName": "batteryRemainingPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "batteryVoltageMillivolts",
+            "columnName": "batteryVoltageMillivolts",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "batteryCurrentMilliamps",
+            "columnName": "batteryCurrentMilliamps",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "batteryTemperatureCelsius",
+            "columnName": "batteryTemperatureCelsius",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "isConnected",
+            "columnName": "isConnected",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSeenEpochMillis",
+            "columnName": "lastSeenEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "missions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `status` TEXT NOT NULL, `assignedDroneIds` TEXT NOT NULL, `createdAtEpochMillis` INTEGER NOT NULL, `updatedAtEpochMillis` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assignedDroneIds",
+            "columnName": "assignedDroneIds",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAtEpochMillis",
+            "columnName": "createdAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAtEpochMillis",
+            "columnName": "updatedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "waypoints",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `missionId` TEXT NOT NULL, `sequence` INTEGER NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `altitude` REAL NOT NULL, `action` TEXT NOT NULL, `holdTimeMillis` INTEGER NOT NULL, `acceptRadius` REAL NOT NULL, `speed` REAL NOT NULL, FOREIGN KEY(`missionId`) REFERENCES `missions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "missionId",
+            "columnName": "missionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sequence",
+            "columnName": "sequence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altitude",
+            "columnName": "altitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "action",
+            "columnName": "action",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "holdTimeMillis",
+            "columnName": "holdTimeMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "acceptRadius",
+            "columnName": "acceptRadius",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "speed",
+            "columnName": "speed",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_waypoints_missionId",
+            "unique": false,
+            "columnNames": [
+              "missionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_waypoints_missionId` ON `${TABLE_NAME}` (`missionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "missions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "missionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "telemetry",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `droneId` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `altitudeMsl` REAL NOT NULL, `relativeAltitude` REAL NOT NULL, `heading` REAL NOT NULL, `groundSpeed` REAL NOT NULL, `rollDeg` REAL NOT NULL, `pitchDeg` REAL NOT NULL, `yawDeg` REAL NOT NULL, `batteryRemainingPercent` INTEGER NOT NULL, `batteryVoltageMillivolts` INTEGER NOT NULL, `batteryCurrentMilliamps` INTEGER NOT NULL, `batteryTemperatureCelsius` REAL NOT NULL, `flightMode` TEXT NOT NULL, `timestampEpochMillis` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "droneId",
+            "columnName": "droneId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "altitudeMsl",
+            "columnName": "altitudeMsl",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relativeAltitude",
+            "columnName": "relativeAltitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heading",
+            "columnName": "heading",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groundSpeed",
+            "columnName": "groundSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rollDeg",
+            "columnName": "rollDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pitchDeg",
+            "columnName": "pitchDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "yawDeg",
+            "columnName": "yawDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryRemainingPercent",
+            "columnName": "batteryRemainingPercent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryVoltageMillivolts",
+            "columnName": "batteryVoltageMillivolts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryCurrentMilliamps",
+            "columnName": "batteryCurrentMilliamps",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryTemperatureCelsius",
+            "columnName": "batteryTemperatureCelsius",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flightMode",
+            "columnName": "flightMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestampEpochMillis",
+            "columnName": "timestampEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_telemetry_droneId",
+            "unique": false,
+            "columnNames": [
+              "droneId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_telemetry_droneId` ON `${TABLE_NAME}` (`droneId`)"
+          },
+          {
+            "name": "index_telemetry_timestampEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "timestampEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_telemetry_timestampEpochMillis` ON `${TABLE_NAME}` (`timestampEpochMillis`)"
+          },
+          {
+            "name": "index_telemetry_droneId_timestampEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "droneId",
+              "timestampEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_telemetry_droneId_timestampEpochMillis` ON `${TABLE_NAME}` (`droneId`, `timestampEpochMillis`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c39da879daadb6f2c7678024ebbfae52')"
+    ]
+  }
+}
