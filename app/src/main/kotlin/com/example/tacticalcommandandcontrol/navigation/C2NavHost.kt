@@ -21,7 +21,7 @@ fun C2NavHost(
     ) {
         missionPlanningScreen()
         liveOpsScreen(
-            onDroneClick = { navController.navigateToDroneControl() },
+            onDroneClick = { droneId -> navController.navigateToDroneControl(droneId) },
         )
         droneControlScreen()
     }

@@ -34,7 +34,7 @@ fun C2App() {
                 ) {
                     TopLevelDestination.entries.forEach { destination ->
                         val selected = currentDestination?.hierarchy?.any {
-                            it.route == destination.route
+                            it.route?.startsWith(destination.route) == true
                         } == true
 
                         NavigationBarItem(

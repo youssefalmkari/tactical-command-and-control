@@ -29,13 +29,14 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DroneControlViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val observeDronesUseCase: ObserveDronesUseCase,
     private val getDroneByIdUseCase: GetDroneByIdUseCase,
     private val sendCommandUseCase: SendCommandUseCase,
     private val observeTelemetryStreamUseCase: ObserveTelemetryStreamUseCase,
 ) : ViewModel() {
 
-    private val _selectedDroneId = MutableStateFlow<String?>(null)
+    private val _selectedDroneId = MutableStateFlow<String?>(savedStateHandle["droneId"])
     val selectedDroneId: StateFlow<String?> = _selectedDroneId.asStateFlow()
 
     private val _commandStatus = MutableStateFlow<CommandStatus>(CommandStatus.Idle)
