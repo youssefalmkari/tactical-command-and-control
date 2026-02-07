@@ -25,6 +25,7 @@ object DatabaseModule {
     fun provideDatabase(
         @ApplicationContext context: Context,
     ): C2Database {
+        System.loadLibrary("sqlcipher")
         val passphrase = EncryptedDatabaseFactory.getPassphrase()
         val factory = SupportOpenHelperFactory(passphrase)
 

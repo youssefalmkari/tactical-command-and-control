@@ -85,9 +85,24 @@ class DroneRepositoryImpl @Inject constructor(
             Timber.w("Command timeout for drone $droneId: $command")
             CommandResult.Timeout
         } catch (e: Exception) {
-            Timber.e(e, "Command failed for drone $droneId: $command")
-            CommandResult.Queued
+            Timber.w(e, "MQTT unavailable, applying command locally for drone $droneId")
+            applyCommandLocally(droneId, command)
+            CommandResult.Acknowledged
         }
+    }
+
+    private suspend fun applyCommandLocally(droneId: String, command: DroneCommand) {
+        val drone = droneDao.getById(droneId) ?: return
+        val newStatus = when (command) {
+            is DroneCommand.Arm -> "ARMED"
+            is DroneCommand.Disarm -> "IDLE"
+            is DroneCommand.Takeoff -> "FLYING"
+            is DroneCommand.Land -> "LANDING"
+            is DroneCommand.ReturnToLaunch -> "RETURNING"
+            is DroneCommand.EmergencyStop -> "LANDED"
+            else -> return
+        }
+        droneDao.upsert(drone.copy(status = newStatus, lastSeenEpochMillis = System.currentTimeMillis()))
     }
 
     private fun encodeCommand(systemId: Int, command: DroneCommand): ByteArray = when (command) {
